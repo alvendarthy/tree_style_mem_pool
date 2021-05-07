@@ -12,14 +12,6 @@
 #include "mg_log.h"
 
 
-#define MG_OK 			0
-#define MG_ERROR 		-1
-#define MG_DECLINED		-2
-#define MG_ERROR_NOR	-3
-
-#define MG_AGAIN	-10
-
-
 #define mg_memcpy(dst, src, n)   (void) memcpy(dst, src, n)
 
 

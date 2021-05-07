@@ -153,6 +153,10 @@ void   mg_free(void * mem)								/*easy*/
 	
 	p = mem - sizeof(mg_pool_t);
 
+	if(p->on_free){
+		p->on_free(mem);
+	}
+
 	mem_count -= ( sizeof(mg_pool_t) + p->size);
 
 	mg_queue_remove(&p->qu);
@@ -188,4 +192,19 @@ void mg_pool_add(mg_pool_t *pool, void *mem)
 	mem_h = mem - sizeof(mg_pool_t);
 
 	mg_queue_insert_tail(&(pool->qu), &(mem_h->qu));
+}
+
+int mg_pool_set_on_free(void *mem, on_free_callback_t callback){
+	mg_pool_t *p = NULL;
+    if(NULL == mem)
+    {
+        return MG_ERROR;
+    }
+
+    p = mem - sizeof(mg_pool_t);
+
+	p->on_free = callback;
+
+	return MG_OK;
+
 }

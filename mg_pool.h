@@ -4,17 +4,19 @@
 #include "mg_queue.h"
 #include <stdlib.h>
 #include <string.h>
-
+#include "mg_type.h"
 
 #define MG_MEM_NOR  0
 #define MG_MEM_POOL 1
 
+typedef int (*on_free_callback_t)(void *mem);
 
 typedef struct
 {
-	mg_queue_t		qu;
-	size_t			size;
 	int				type;
+	size_t			size;
+	on_free_callback_t  on_free;
+	mg_queue_t		qu;
 }mg_pool_t;
 
 
@@ -30,5 +32,6 @@ void mg_pool_drop(void *mem);
 
 void mg_pool_add(mg_pool_t *pool, void *mem);
 
+int mg_pool_set_on_free(void *mem, on_free_callback_t callback);
 
 #endif

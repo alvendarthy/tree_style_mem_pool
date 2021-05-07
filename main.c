@@ -6,6 +6,12 @@
 
 extern long mem_count;
 
+int say_bye(void *m){
+	printf("Bye, free mem at %p \n", m);
+	return 0;
+}
+
+
 int main(int argc, char **argv)
 {
 	mg_pool_t   *main_pool =   NULL;
@@ -34,6 +40,7 @@ int main(int argc, char **argv)
 	/*let's alloc 1024 byte in every pool*/
 	tmp =mg_pcalloc(main_pool, 1024);
 	
+	mg_pool_set_on_free(tmp, say_bye);
 
 	/*pool1 was a child of main_pool, now pool1 become a root pool*/
 	mg_pool_drop(pool1);
